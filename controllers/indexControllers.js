@@ -1,15 +1,20 @@
 const { catchAsyncErrors } = require("../middlewares/catchAsyncError");
 const Student = require("../models/studentModel.js");
 const ErrorHandler = require("../utils/ErrorHandler.js");
-// const comparepassword = require("../models/studentModel");
+const { sendtoken } = require("../utils/SendToken");
 
 exports.home = catchAsyncErrors(async (req, res, next) => {
   res.status(200).json({ message: "this is home router" });
 });
 
+exports.currentUser = catchAsyncErrors(async (req, res, next) => {
+  const student = await Student.findById(req.id).exec();
+  res.json({ student });
+});
+
 exports.studentsignup = catchAsyncErrors(async (req, res, next) => {
   const student = await new Student(req.body).save();
-  res.status(201).json(student);
+  sendtoken(student, 201, res);
 });
 
 exports.studentsignin = catchAsyncErrors(async (req, res, next) => {
@@ -27,7 +32,10 @@ exports.studentsignin = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHandler("Wrong Credientials", 500));
   }
 
-  res.json(student);
+  sendtoken(student, 200, res);
 });
 
-exports.studentsignout = catchAsyncErrors(async (req, res, next) => {});
+exports.studentsignout = catchAsyncErrors(async (req, res, next) => {
+  res.clearCookie("token");
+  res.json({ message: "Successfully signout!" });
+});
