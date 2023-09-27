@@ -22,6 +22,10 @@ const studentModel = new mongoose.Schema(
       //     "Password Does Not Contain Special Character",
       //   ],
     },
+    restePasswordToken: {
+      type: String,
+      default: "0",
+    },
   },
   { timestamps: true }
 );

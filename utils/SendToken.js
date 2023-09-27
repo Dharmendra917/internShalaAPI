@@ -8,6 +8,8 @@ exports.sendtoken = (student, statusCode, res) => {
     httpOnly: true, // if you use http
     // secure : true    // if you use https
   };
-  res.status(statusCode).cookie("token", token, options);
-  res.json({ success: true, id: student._id, token });
+  res
+    .status(statusCode)
+    .cookie("token", token, options)
+    .json({ success: true, id: student._id, email: student.email, token });
 };
