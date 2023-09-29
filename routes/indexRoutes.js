@@ -7,6 +7,7 @@ const {
   studentsignout,
   studentsendmail,
   studentforgetlink,
+  studentresetlink,
 } = require("../controllers/indexControllers");
 const { isAuthenticated } = require("../middlewares/auth");
 const router = express.Router();
@@ -31,5 +32,8 @@ router.post("/student/send-mail", studentsendmail);
 
 //GET  /student/forget-link/:student._id
 router.get("/student/forget-link/:id", studentforgetlink);
+
+//POST  /student/reste-link/:student._id
+router.post("/student/reset-link/:id", isAuthenticated, studentresetlink);
 
 module.exports = router;
