@@ -27,8 +27,13 @@ app.use(
 // cookie - (it actives cookes)Cookies are used to generate token on the backend, which is then stored in the user's browser. This code remains in the browser until the user logs in, and it typically expires when the session ends.
 app.use(cookieparser());
 
+// express file-uploader
+const fileupload = require("express-fileupload");
+app.use(fileupload());
+
 // routes
-app.use("/", require("./routes/indexRoutes"));
+app.use("/user", require("./routes/indexRoutes"));
+app.use("/resume", require("./routes/resumeRoutes"));
 
 // error handling
 const ErrorHandler = require("./utils/ErrorHandler");
