@@ -6,6 +6,7 @@ const { sendmailer } = require("../utils/NodeMailer");
 const { sendtoken } = require("../utils/SendToken");
 const path = require("path");
 const imagekit = require("../utils/ImageKit").initImageKit();
+const Internship = require("../models/internshipModel");
 
 exports.home = catchAsyncErrors(async (req, res, next) => {
   res.status(200).json({ message: "Secure Employe Page!" });
@@ -121,4 +122,28 @@ exports.employeavatar = catchAsyncErrors(async (req, res, next) => {
   employe.organizationlogo = { fileId, url };
   await employe.save();
   res.status(200).json({ success: true, message: "profile updated!" });
+});
+
+//---------Internships-------------
+
+exports.createinternship = catchAsyncErrors(async (req, res, next) => {
+  const employe = await Employe.findById(req.id).exec();
+  const internship = await new Internship(req.body);
+  internship.employe = employe._id;
+  employe.internships.push(internship._id);
+  await internship.save();
+  await employe.save();
+  res.status(201).json({ success: true, internship });
+});
+
+exports.readinternship = catchAsyncErrors(async (req, res, next) => {
+  const { internships } = await Employe.findById(req.id)
+    .populate("internships")
+    .exec();
+  res.status(200).json({ success: true, internships });
+});
+
+exports.singlereadinternship = catchAsyncErrors(async (req, res, next) => {
+  const internship = await Internship.findById(req.params.id).exec();
+  res.status(200).json({ success: true, internship });
 });
