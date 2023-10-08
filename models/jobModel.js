@@ -2,7 +2,8 @@ const mongoose = require("mongoose");
 
 const jobModel = new mongoose.Schema(
   {
-    employe: { type: mongoose.Schema.Types.ObjectId, ref: "employe" },
+    students: [{ type: mongoose.Schema.Types.ObjectId, ref: "student" }], // how many students apply
+    employe: { type: mongoose.Schema.Types.ObjectId, ref: "employe" }, // which employe create this job
     title: {
       type: String,
       require: [true, "Job Title is required "],

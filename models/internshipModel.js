@@ -2,7 +2,8 @@ const mongoose = require("mongoose");
 
 const internshipModel = new mongoose.Schema(
   {
-    employe: { type: mongoose.Schema.Types.ObjectId, ref: "employe" },
+    students: [{ type: mongoose.Schema.Types.ObjectId, ref: "student" }], // how many student are apply
+    employe: { type: mongoose.Schema.Types.ObjectId, ref: "employe" }, // which employe create this intern
     profile: {
       type: String,
       require: [true, "Profile is required "],

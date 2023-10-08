@@ -7,6 +7,7 @@ const { sendtoken } = require("../utils/SendToken");
 const path = require("path");
 const imagekit = require("../utils/ImageKit").initImageKit();
 const Internship = require("../models/internshipModel");
+const Job = require("../models/jobModel");
 
 exports.home = catchAsyncErrors(async (req, res, next) => {
   res.status(200).json({ message: "Secure Employe Page!" });
@@ -146,4 +147,26 @@ exports.readinternship = catchAsyncErrors(async (req, res, next) => {
 exports.singlereadinternship = catchAsyncErrors(async (req, res, next) => {
   const internship = await Internship.findById(req.params.id).exec();
   res.status(200).json({ success: true, internship });
+});
+
+//----------------Jobs----------------------
+exports.createjob = catchAsyncErrors(async (req, res, next) => {
+  const employe = await Employe.findById(req.id).exec();
+  const job = await new Job(req.body);
+  console.log(employe);
+  job.employe = employe._id;
+  employe.jobs.push(job._id);
+  job.save();
+  employe.save();
+  res.status(201).json({ success: true, job });
+});
+
+exports.readjob = catchAsyncErrors(async (req, res, next) => {
+  const { jobs } = await Employe.findById(req.id).populate("jobs").exec();
+  res.status(201).json({ success: true, jobs });
+});
+
+exports.singlereadjob = catchAsyncErrors(async (req, res, next) => {
+  const job = await Job.findById(req.params.id).exec();
+  res.status(200).json({ success: true, job });
 });

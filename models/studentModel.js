@@ -3,6 +3,8 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const studentModel = new mongoose.Schema(
   {
+    internships: [{ type: mongoose.Schema.Types.ObjectId, ref: "internship" }], // applied intern
+    jobs: [{ type: mongoose.Schema.Types.ObjectId, ref: "job" }], // those they applied
     firstname: {
       type: String,
       require: [true, "First Name is required "],
