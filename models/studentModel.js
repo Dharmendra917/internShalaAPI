@@ -44,10 +44,10 @@ const studentModel = new mongoose.Schema(
       select: false,
       maxLength: [15, "password should not exced more than 15 character"],
       minLength: [6, "password should not atleast  6 character"],
-      //   match: [
-      //     /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,1024}$/,
-      //     "Password Does Not Contain Special Character",
-      //   ],
+      // match: [
+      //   /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,1024}$/,
+      //   "Password Does Not Contain Special Character",
+      // ],
     },
     restePasswordToken: {
       type: String,

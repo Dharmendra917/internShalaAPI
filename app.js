@@ -9,6 +9,9 @@ require("./models/database").connectDatabase();
 const logger = require("morgan");
 app.use(logger("tiny"));
 
+// configure CORS
+app.use(require("cors")({ origin: true, credentials: true }));
+
 //bodyParser
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

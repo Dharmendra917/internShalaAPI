@@ -35,7 +35,7 @@ router.get("/student/signout", isAuthenticated, studentsignout);
 router.post("/student/send-mail", studentsendmail);
 
 //GET  /student/forget-link/:student._id
-router.get("/student/forget-link/:id", studentforgetlink);
+router.post("/student/forget-link", studentforgetlink);
 
 //POST  /student/reste-link/:student._id
 router.post("/student/reset-link/:id", isAuthenticated, studentresetlink);

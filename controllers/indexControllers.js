@@ -53,18 +53,22 @@ exports.studentsendmail = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHandler("Student dose not exits", 500));
   }
 
-  const url = `${req.protocol}://${req.get("host")}/student/forget-link/${
-    student._id
-  }`;
-
+  // const url = `${req.protocol}://${req.get("host")}/student/forget-link/${
+  //   student._id
+  // }`;
+  const url = Math.floor(Math.random() * 9000 + 1000);
   sendmailer(req, res, next, url);
-  student.restePasswordToken = "1";
+  student.restePasswordToken = `${url}`;
   await student.save();
-  res.json({ student, url });
+  setTimeout(() => {
+    student.restePasswordToken = "0";
+    student.save();
+  }, 60 * 1000 * 10);
+  res.json({ url });
 });
 
 exports.studentforgetlink = catchAsyncErrors(async (req, res, next) => {
-  const student = await Student.findById(req.params.id).exec();
+  const student = await Student.findOne({ email: req.body.email }).exec();
 
   if (!student) {
     return next(
@@ -72,7 +76,7 @@ exports.studentforgetlink = catchAsyncErrors(async (req, res, next) => {
     );
   }
 
-  if (student.restePasswordToken == "1") {
+  if (student.restePasswordToken == req.body.otp) {
     student.restePasswordToken = "0";
     student.password = req.body.password;
     await student.save();
